@@ -39,9 +39,7 @@ router.post('/login', (req, res, next) => {
 });
 
 router.get('/logout', (req, res, next) => {
-    console.log("USERS LOGOUT");
-    req.session.destroy();
-    res.redirect('/users');
+    test_conflit(req, res);
 });
 
 router.get('/register', (req, res, next) => {
@@ -80,6 +78,12 @@ router.post('/add', (req, res, next) => {
 });
 
 module.exports = router;
+
+function test_conflit(req, res) {
+    console.log("USERS LOGOUT");
+    req.session.destroy();
+    res.redirect('/users');
+}
 
 function BadUser(req, res) {
     console.log("bad user");
