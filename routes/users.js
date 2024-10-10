@@ -26,13 +26,7 @@ router.post('/login', (req, res, next) => {
         else {
             if (bcrypt.compareSync(req.body.userPassword, userFound.password)) {
                 CorrectPassword(req);
-                if (userFound.admin) {
-                    req.session.admin = true;
-                    res.redirect('/admin');
-                } else {
-                    req.session.admin = false;
-                    res.redirect('/members');
-                }
+                VerifyRole(userFound, req, res);
             }
             else {
                 ManageWrongPassword(req, res);
@@ -88,6 +82,16 @@ router.post('/add', (req, res, next) => {
 });
 
 module.exports = router;
+
+function VerifyRole(userFound, req, res) {
+    if (userFound.admin) {
+        req.session.admin = true;
+        res.redirect('/admin');
+    } else {
+        req.session.admin = false;
+        res.redirect('/members');
+    }
+}
 
 function FindUserInDB(req) {
     console.log("USERS LOGIN");
